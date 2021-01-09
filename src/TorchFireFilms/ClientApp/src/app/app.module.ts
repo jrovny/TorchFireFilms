@@ -4,11 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CallbackComponent
+    CallbackComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
