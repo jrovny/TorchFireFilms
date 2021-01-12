@@ -8,14 +8,12 @@ import { AuthService } from 'src/app/core/auth.service';
   styleUrls: ['./callback.component.scss'],
 })
 export class CallbackComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router) {
-    console.log('callback component initialized');
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    console.log('callback called');
-    // this.authService.signInCallback().subscribe((value) => {
-    //   this.router.navigate(['/'], { replaceUrl: true });
-    // });
+    this.authService.signInCallback().subscribe((value) => {
+      console.log('value', value);
+      this.router.navigate(['/'], { replaceUrl: true });
+    });
   }
 }
