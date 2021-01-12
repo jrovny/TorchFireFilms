@@ -11,8 +11,7 @@ export class CallbackComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authService.signInCallback().subscribe((value) => {
-      console.log('value', value);
+    this.authService.signInCallback().then(() => {
       this.router.navigate(['/'], { replaceUrl: true });
     });
   }

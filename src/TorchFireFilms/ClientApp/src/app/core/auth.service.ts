@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { from, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   userManager: UserManager;
-  user: User;
+  user: User = null;
 
   constructor() {
     this.userManager = new UserManager({
@@ -18,9 +17,13 @@ export class AuthService {
       response_type: 'code',
       scope: 'openid profile',
       post_logout_redirect_uri: 'https://localhost:5010/signout-callback-oidc',
-      // userStore: new WebStorageStateStore({
-      //   store: window.localStorage,
-      // }),
+      userStore: new WebStorageStateStore({
+        store: window.localStorage,
+      }),
+    });
+
+    this.userManager.getUser().then((user) => {
+      this.user = user;
     });
   }
 
@@ -29,20 +32,13 @@ export class AuthService {
   }
 
   signInCallback() {
-    console.log('signInCallback() called');
-    return from(this.userManager.signinRedirectCallback());
+    return this.userManager.signinRedirectCallback().then((user) => {
+      this.user = user;
+    });
   }
 
   getAccessToken() {
     return this.user ? this.user.access_token : '';
-  }
-
-  isSignedIn(): Observable<boolean> {
-    return from(this.userManager.getUser()).pipe(
-      map((user) => {
-        return user && !user.expired;
-      })
-    );
   }
 
   signOut() {
@@ -57,5 +53,9 @@ export class AuthService {
 
   getUser() {
     return from(this.userManager.getUser());
+  }
+
+  authenticated() {
+    return this.user && !this.user.expired;
   }
 }
