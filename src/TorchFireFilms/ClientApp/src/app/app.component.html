@@ -4,9 +4,13 @@
   fxLayoutAlign="space-between center"
 >
   <div><a mat-button routerLink="/">TorchFireFilms</a></div>
-  <div>
+  <div *ngIf="!authenticated()">
     <button mat-button (click)="signIn()">Sign In</button>
     <button mat-raised-button color="primary">Sign Up</button>
+  </div>
+  <div *ngIf="authenticated()">
+    <button mat-button (click)="signOut()">Sign Out</button>
+    <button mat-mini-fab color="primary">{{ getUserInitials() }}</button>
   </div>
 </mat-toolbar>
 

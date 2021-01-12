@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'angular-sample-app';
 
   constructor(private authService: AuthService) {
-    this.authService.getUser().subscribe((user) => console.log('user', user));
+    // this.authService.getUser().subscribe((user) => console.log('user', user));
   }
 
   signIn() {
@@ -19,5 +19,22 @@ export class AppComponent {
 
   signOut() {
     this.authService.signOut();
+  }
+
+  authenticated() {
+    return this.authService.authenticated();
+  }
+
+  getUserInitials() {
+    let user = this.authService.user;
+
+    if (user) {
+      return (
+        user.profile.given_name.substring(0, 1).toUpperCase() +
+        user.profile.family_name.substring(0, 1).toUpperCase()
+      );
+    } else {
+      return '';
+    }
   }
 }
