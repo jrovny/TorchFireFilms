@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callback/signout-redirect-callback.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callba
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
