@@ -1,21 +1,13 @@
-<!-- <div
-  style="
-    position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 60px;
-    background: black;
-  "
+<mat-toolbar
+  class="toolbar-settings"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
 >
-  <button (click)="signIn()">Sign In</button>
-  <button (click)="signOut()">Sign Out</button>
-</div> -->
-
-<mat-toolbar class="toolbar-settings">
-  <button mat-button>Sign In</button>
-  <button mat-raised-button color="primary">Sign Up</button>
+  <div><a mat-button routerLink="/">TorchFireFilms</a></div>
+  <div>
+    <button mat-button (click)="signIn()">Sign In</button>
+    <button mat-raised-button color="primary">Sign Up</button>
+  </div>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
