@@ -3,18 +3,30 @@
   fxLayout="row"
   fxLayoutAlign="space-between center"
 >
-  <div><a mat-button routerLink="/">TorchFireFilms</a></div>
+  <div>
+    <a mat-button routerLink="/">TorchFireFilms</a>
+  </div>
   <div *ngIf="!authenticated()">
     <button mat-button (click)="signIn()">Sign In</button>
     <button mat-raised-button color="primary">Sign Up</button>
+    <div>{{ this.authService.user?.profile.last_name }}</div>
   </div>
-  <div *ngIf="authenticated()">
-    <button mat-button (click)="signOut()">Sign Out</button>
-    <button mat-mini-fab color="primary">{{ getUserInitials() }}</button>
+  <div *ngIf="authenticated()" fxLayoutGap="3px">
+    <button mat-icon-button><mat-icon>search</mat-icon></button>
+    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+    <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+      {{ getUserInitials() }}
+    </button>
   </div>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
+
+<mat-menu #menu="matMenu" fxFlex="column">
+  <button mat-menu-item>Account</button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="signOut()">Sign Out</button>
+</mat-menu>
 
 <!-- <img
   style="width: 100%; height: 100%"

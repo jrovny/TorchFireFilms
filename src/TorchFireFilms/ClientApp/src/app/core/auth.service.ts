@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
-import { from, Observable, of } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private user$ = new Subject<User>();
+
   userManager: UserManager;
   user: User = null;
+  userChanged$ = this.user$.asObservable();
 
   constructor() {
     this.userManager = new UserManager({
-      authority: 'https://localhost:5001',
+      authority: 'https://test.accounts.torchfirefilms.com', //'https://localhost:5001',
       client_id: 'spa',
       redirect_uri: 'https://localhost:5010/signin-redirect',
       response_type: 'code',
@@ -34,6 +37,7 @@ export class AuthService {
   signInCallback() {
     return this.userManager.signinRedirectCallback().then((user) => {
       this.user = user;
+      this.user$.next(user);
     });
   }
 
@@ -46,7 +50,6 @@ export class AuthService {
   }
 
   signOutCallBack() {
-    console.log('signOutCallBack()');
     this.user = null;
     return from(this.userManager.signoutRedirectCallback());
   }

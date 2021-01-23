@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { User } from 'oidc-client';
+import { Observable } from 'rxjs';
 import { AuthService } from './core/auth.service';
 
 @Component({
@@ -8,9 +10,10 @@ import { AuthService } from './core/auth.service';
 })
 export class AppComponent {
   title = 'angular-sample-app';
+  user$: Observable<User>;
 
   constructor(private authService: AuthService) {
-    // this.authService.getUser().subscribe((user) => console.log('user', user));
+    this.user$ = this.authService.userChanged$;
   }
 
   signIn() {
@@ -29,12 +32,20 @@ export class AppComponent {
     let user = this.authService.user;
 
     if (user) {
+      let lastName = user.profile.family_name ?? '';
+      let firstName = user.profile.given_name ?? '';
+
+      // console.log(
+      //   firstName.substring(0, 1).toUpperCase() +
+      //     lastName.substring(0, 1).toUpperCase()
+      // );
+
       return (
-        user.profile.given_name.substring(0, 1).toUpperCase() +
-        user.profile.family_name.substring(0, 1).toUpperCase()
+        firstName.substring(0, 1).toUpperCase() +
+        lastName.substring(0, 1).toUpperCase()
       );
     } else {
-      return '';
+      return 'U';
     }
   }
 }
