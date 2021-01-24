@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,15 +14,19 @@ namespace TorchFireFilms.Api.Films
     public class FilmsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<FilmsController> _logger;
 
-        public FilmsController(ApplicationDbContext context)
+        public FilmsController(ApplicationDbContext context, ILogger<FilmsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<IEnumerable<Models.Film>> GetAllAsync(int languageId)
         {
+            _logger.LogInformation("Getting all films");
+
             if (languageId < 1)
                 languageId = 1;
 
@@ -45,6 +50,8 @@ namespace TorchFireFilms.Api.Films
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id, int languageId)
         {
+            _logger.LogInformation("Getting film by id {id} and languageId {languageId}", id, languageId);
+
             if (languageId == 0)
                 languageId = 1;
 
