@@ -33,6 +33,13 @@ namespace TorchFireFilms
                     options.Authority = Configuration["AuthSettings:Authority"];
                     options.Audience = Configuration["AuthSettings:Audience"];
                 });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "SiteCorsPolicy", builder =>
+                {
+                    builder.WithOrigins("https://test.accounts.torchfirefilms.com");
+                });
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -64,6 +71,7 @@ namespace TorchFireFilms
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors("SiteCorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
