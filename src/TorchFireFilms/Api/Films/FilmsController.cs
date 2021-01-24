@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 namespace TorchFireFilms.Api.Films
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class FilmsController : ControllerBase
     {

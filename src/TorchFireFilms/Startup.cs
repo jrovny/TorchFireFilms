@@ -24,6 +24,9 @@ namespace TorchFireFilms
             services.AddDbContext<ApplicationDbContext>();
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddControllersWithViews();
+            var authority = Configuration["AuthSettings:Authority"];
+            var audience = Configuration["AuthSettings:Audience"];
+
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
@@ -59,6 +62,8 @@ namespace TorchFireFilms
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
