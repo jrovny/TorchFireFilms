@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { from, Observable, of, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,12 @@ export class AuthService {
 
   constructor() {
     this.userManager = new UserManager({
-      authority: 'https://test.accounts.torchfirefilms.com', //'https://localhost:5001',
+      authority: environment.auth.authority,
       client_id: 'spa',
-      redirect_uri: 'https://localhost:5010/signin-redirect',
+      redirect_uri: environment.auth.redirectUri,
       response_type: 'code',
       scope: 'openid profile scope1',
-      post_logout_redirect_uri: 'https://localhost:5010/signout-callback-oidc',
+      post_logout_redirect_uri: environment.auth.postLogoutRedirectUri,
       userStore: new WebStorageStateStore({
         store: window.localStorage,
       }),
