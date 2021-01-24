@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace TorchFireFilms
 {
@@ -69,6 +70,7 @@ namespace TorchFireFilms
             }
 
             app.UseRouting();
+            app.UseSerilogRequestLogging();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors("SiteCorsPolicy");
