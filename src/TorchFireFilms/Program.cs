@@ -18,8 +18,10 @@ namespace TorchFireFilms
                 .UseSerilog((context, logger) =>
                 {
                     var isDevelopment = context.HostingEnvironment.IsDevelopment();
-                    logger.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning);
+                    logger.MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information);
                     logger.Enrich.FromLogContext();
+                    logger.Enrich.WithMachineName();
+                    logger.Enrich.WithEnvironmentUserName();
                     if (isDevelopment)
                         logger.WriteTo.Console();
                     logger.WriteTo.File(new JsonFormatter(),
