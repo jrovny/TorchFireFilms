@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TorchFireFilms
 {
@@ -23,6 +24,12 @@ namespace TorchFireFilms
             services.AddDbContext<ApplicationDbContext>();
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddControllersWithViews();
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = Configuration["AuthSettings:Authority"];
+                    options.Audience = Configuration["AuthSettings:Audience"];
+                });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

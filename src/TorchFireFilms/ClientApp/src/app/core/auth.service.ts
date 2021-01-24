@@ -18,7 +18,7 @@ export class AuthService {
       client_id: 'spa',
       redirect_uri: 'https://localhost:5010/signin-redirect',
       response_type: 'code',
-      scope: 'openid profile',
+      scope: 'openid profile scope1',
       post_logout_redirect_uri: 'https://localhost:5010/signout-callback-oidc',
       userStore: new WebStorageStateStore({
         store: window.localStorage,
