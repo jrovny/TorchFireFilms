@@ -20,7 +20,11 @@
   </div>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<div class="container">
+  <div fxFlex>
+    <router-outlet></router-outlet>
+  </div>
+</div>
 
 <mat-menu #menu="matMenu" fxFlex="column">
   <button mat-menu-item>Account</button>
