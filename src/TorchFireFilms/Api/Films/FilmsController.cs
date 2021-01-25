@@ -23,6 +23,7 @@ namespace TorchFireFilms.Api.Films
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<Models.Film>> GetAllAsync(int languageId)
         {
             _logger.LogInformation("Getting all films by languageId {languageId}", languageId);
