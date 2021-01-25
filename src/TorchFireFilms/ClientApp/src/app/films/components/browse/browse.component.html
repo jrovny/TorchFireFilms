@@ -1,0 +1,8 @@
+<p>Test Component</p>
+<div style="top: 60px">
+  <p>Films</p>
+
+  <ul *ngFor="let film of films$ | async">
+    <li>{{ film.title }}</li>
+  </ul>
+</div>

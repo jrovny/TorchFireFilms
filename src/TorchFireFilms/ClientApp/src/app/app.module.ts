@@ -14,6 +14,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/auth-interceptor';
+import { BrowseComponent } from './films/components/browse/browse.component';
 
 @NgModule({
   declarations: [
@@ -21,19 +24,23 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     CallbackComponent,
     PageNotFoundComponent,
     SignoutRedirectCallbackComponent,
+    BrowseComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    HttpClientModule,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
     MatMenuModule,
     MatToolbarModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
