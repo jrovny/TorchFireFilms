@@ -1,8 +1,12 @@
-<p>Test Component</p>
 <div style="top: 60px">
-  <p>Films</p>
-
-  <ul *ngFor="let film of films$ | async">
-    <li>{{ film.title }}</li>
-  </ul>
+  <mat-card class="example-card" *ngFor="let film of films$ | async">
+    <img
+      mat-card-image
+      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Photo of a Shiba Inu"
+    />
+    <mat-card-title>
+      {{ film.title }}
+    </mat-card-title>
+  </mat-card>
 </div>
