@@ -19,6 +19,8 @@ namespace TorchFireFilms.Api.Films.Data.Models
         public Uri Image { get; set; }
         [Column("thumbnail")]
         public Uri Thumbnail { get; set; }
+        [Column("slug")]
+        public string Slug { get; set; }
         [Column("created_date")]
         public DateTime CreatedDate { get; set; }
         [Column("created_user_id")]
