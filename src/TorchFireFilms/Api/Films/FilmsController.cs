@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -15,11 +16,16 @@ namespace TorchFireFilms.Api.Films
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<FilmsController> _logger;
+        private readonly IMapper _mapper;
 
-        public FilmsController(ApplicationDbContext context, ILogger<FilmsController> logger)
+        public FilmsController(
+            ApplicationDbContext context,
+            ILogger<FilmsController> logger,
+            IMapper mapper)
         {
             _context = context;
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -78,6 +84,21 @@ namespace TorchFireFilms.Api.Films
                 return NotFound();
 
             return Ok(film);
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> CreateFilmAsync(Models.FilmSave film)
+        {
+            var filmSave = _mapper.Map<Data.Models.Film>(film);
+
+            _context.Films.Add(filmSave);
+            await _context.SaveChangesAsync();
+            film.FilmId = filmSave.FilmId;
+
+            return CreatedAtAction(
+                nameof(GetByIdAsync),
+                new { id = film.FilmId, languageId = film.IsoLanguage639Id },
+                film);
         }
     }
 }
