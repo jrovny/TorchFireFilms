@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +25,7 @@ namespace TorchFireFilms
         {
             services.AddDbContext<ApplicationDbContext>();
             services.AddSingleton<IConnectionService, ConnectionService>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
             var authority = Configuration["AuthSettings:Authority"];
             var audience = Configuration["AuthSettings:Audience"];
