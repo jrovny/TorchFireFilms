@@ -26,7 +26,8 @@ namespace TorchFireFilms
             services.AddDbContext<ApplicationDbContext>();
             services.AddSingleton<IConnectionService, ConnectionService>();
             services.AddAutoMapper(typeof(Startup));
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(options =>
+                options.SuppressAsyncSuffixInActionNames = false);
             var authority = Configuration["AuthSettings:Authority"];
             var audience = Configuration["AuthSettings:Audience"];
 
