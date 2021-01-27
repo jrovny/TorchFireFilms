@@ -31,13 +31,13 @@ namespace TorchFireFilms
                     options.Authority = Configuration["AuthSettings:Authority"];
                     options.Audience = Configuration["AuthSettings:Audience"];
                 });
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: "SiteCorsPolicy", builder =>
-                {
-                    builder.WithOrigins("https://test.accounts.torchfirefilms.com");
-                });
-            });
+            // services.AddCors(options =>
+            // {
+            //     options.AddPolicy(name: "SiteCorsPolicy", builder =>
+            //     {
+            //         builder.WithOrigins("https://test.accounts.torchfirefilms.com");
+            //     });
+            // });
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "dist";
