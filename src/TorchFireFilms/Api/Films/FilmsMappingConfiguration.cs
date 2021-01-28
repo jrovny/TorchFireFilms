@@ -17,6 +17,9 @@ namespace TorchFireFilms.Api.Films
                         IsoLanguage639Id = s.IsoLanguage639Id
                     });
                 });
+            CreateMap<Data.Models.Film, Models.Film>()
+                .ForMember(d => d.Title, opt => opt.MapFrom(f => f.FilmTranslation.Title))
+                .ForMember(d => d.Description, opt => opt.MapFrom(f => f.FilmTranslation.Description));
         }
     }
 }

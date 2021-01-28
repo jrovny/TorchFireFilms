@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace TorchFireFilms.Api.Films
@@ -14,18 +12,18 @@ namespace TorchFireFilms.Api.Films
     [ApiController]
     public class FilmsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
         private readonly ILogger<FilmsController> _logger;
         private readonly IMapper _mapper;
+        private readonly IFilmsService _filmsService;
 
         public FilmsController(
-            ApplicationDbContext context,
             ILogger<FilmsController> logger,
-            IMapper mapper)
+            IMapper mapper,
+            IFilmsService filmsService)
         {
-            _context = context;
             _logger = logger;
             _mapper = mapper;
+            _filmsService = filmsService;
         }
 
         [HttpGet]
@@ -37,21 +35,9 @@ namespace TorchFireFilms.Api.Films
             if (languageId < 1)
                 languageId = 1;
 
-            return await _context.Films
-                .Include(f => f.FilmTranslation)
-                .AsNoTracking()
-                .Where(f => f.FilmTranslation.IsoLanguage639Id == languageId)
-                .Select(f => new Models.Film
-                {
-                    FilmId = f.FilmId,
-                    Title = f.FilmTranslation.Title,
-                    RuntimeMinutes = f.RuntimeMinutes,
-                    ReleasedDate = f.ReleasedDate,
-                    Uri = f.Uri,
-                    Image = f.Image,
-                    Thumbnail = f.Thumbnail
-                })
-                .ToListAsync();
+            return _mapper.Map<IEnumerable<Models.Film>>(
+                await _filmsService.GetAllAsync(languageId)
+            );
         }
 
         [HttpGet("{id}")]
@@ -62,23 +48,7 @@ namespace TorchFireFilms.Api.Films
             if (languageId == 0)
                 languageId = 1;
 
-            var film = await _context.Films
-                .Include(f => f.FilmTranslation)
-                .AsNoTracking()
-                .Where(f => f.FilmId == id)
-                .Where(f => f.FilmTranslation.IsoLanguage639Id == languageId)
-                .Select(f => new Models.Film
-                {
-                    FilmId = f.FilmId,
-                    Title = f.FilmTranslation.Title,
-                    Description = f.FilmTranslation.Description,
-                    RuntimeMinutes = f.RuntimeMinutes,
-                    ReleasedDate = f.ReleasedDate,
-                    Uri = f.Uri,
-                    Image = f.Image,
-                    Thumbnail = f.Thumbnail
-                })
-                .FirstOrDefaultAsync();
+            var film = _mapper.Map<Models.Film>(await _filmsService.GetByIdAsync(id, languageId));
 
             if (film == null)
                 return NotFound();
@@ -86,19 +56,37 @@ namespace TorchFireFilms.Api.Films
             return Ok(film);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> CreateFilmAsync(Models.FilmSave film)
         {
-            var filmSave = _mapper.Map<Data.Models.Film>(film);
-
-            _context.Films.Add(filmSave);
-            await _context.SaveChangesAsync();
+            var filmSave = await _filmsService.CreateAsync(_mapper.Map<Data.Models.Film>(film));
             film.FilmId = filmSave.FilmId;
 
             return CreatedAtAction(
                 nameof(GetByIdAsync),
                 new { id = film.FilmId, languageId = film.IsoLanguage639Id },
                 film);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFilmAsync(int id, Models.FilmSave film)
+        {
+            if (id != film.FilmId)
+                return BadRequest(new ProblemDetails
+                {
+                    Title = "ID Mismatch",
+                    Detail = "The ID in the URL does not match the ID in the body of the request.",
+                    Instance = HttpContext.TraceIdentifier
+                });
+
+            var filmDb = await _filmsService.GetByIdAsync(id, film.IsoLanguage639Id);
+            if (filmDb == null)
+                return NotFound();
+
+            var filmSave = await _filmsService.UpdateAsync(_mapper.Map<Data.Models.Film>(film));
+            filmSave.FilmTranslation.FilmI18nId = filmDb.FilmTranslation.FilmI18nId;
+
+            return Ok(film);
         }
     }
 }
