@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using TorchFireFilms.Api.Films;
 
 namespace TorchFireFilms
 {
@@ -21,6 +22,7 @@ namespace TorchFireFilms
         {
             services.AddDbContext<ApplicationDbContext>();
             services.AddSingleton<IConnectionService, ConnectionService>();
+            services.AddTransient<IFilmsService, FilmsService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews(options =>
                 options.SuppressAsyncSuffixInActionNames = false);
@@ -35,7 +37,7 @@ namespace TorchFireFilms
             // {
             //     options.AddPolicy(name: "SiteCorsPolicy", builder =>
             //     {
-            //         builder.WithOrigins("https://test.accounts.torchfirefilms.com");
+            //         builder.AllowAnyOrigin();
             //     });
             // });
             services.AddSpaStaticFiles(configuration =>
@@ -56,7 +58,7 @@ namespace TorchFireFilms
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
             app.UseStaticFiles();
             if (!env.IsDevelopment())
             {
@@ -64,10 +66,10 @@ namespace TorchFireFilms
             }
 
             app.UseRouting();
+            // app.UseCors("SiteCorsPolicy");
             app.UseSerilogRequestLogging();
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("SiteCorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {
