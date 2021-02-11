@@ -21,6 +21,7 @@ import { AuthInterceptor } from './core/auth-interceptor';
 import { BrowseComponent } from './films/components/browse/browse.component';
 import { AboutComponent } from './about/about.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     SignoutRedirectCallbackComponent,
     BrowseComponent,
     AboutComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
