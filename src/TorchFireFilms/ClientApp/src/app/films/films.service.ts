@@ -14,4 +14,10 @@ export class FilmsService {
       `${environment.baseUrl}/api/films`
     );
   }
+
+  getFilmById() {
+    return this.httpClient.get<FilmBrowse>(
+      `${environment.baseUrl}/api/films/1`
+    );
+  }
 }
