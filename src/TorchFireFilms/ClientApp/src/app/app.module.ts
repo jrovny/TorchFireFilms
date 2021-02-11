@@ -20,6 +20,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/auth-interceptor';
 import { BrowseComponent } from './films/components/browse/browse.component';
 import { AboutComponent } from './about/about.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AboutComponent } from './about/about.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    LayoutModule,
     HttpClientModule,
     MatButtonModule,
     MatCardModule,

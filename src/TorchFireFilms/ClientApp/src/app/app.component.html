@@ -4,8 +4,16 @@
   fxLayoutAlign="space-between center"
 >
   <div>
+    <button
+      *ngIf="smScreen"
+      mat-icon-button
+      color="primary"
+      [matMenuTriggerFor]="leftMenu"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
     <a mat-button routerLink="/">TorchFireFilms</a>
-    <a mat-button routerLink="/about">About</a>
+    <a *ngIf="!smScreen" mat-button routerLink="/about">About</a>
   </div>
   <div *ngIf="!authenticated()">
     <button mat-button (click)="signIn()">Sign In</button>
@@ -13,8 +21,12 @@
     <div>{{ this.authService.user?.profile.last_name }}</div>
   </div>
   <div *ngIf="authenticated()" fxLayoutGap="3px">
-    <button mat-icon-button><mat-icon>search</mat-icon></button>
-    <button mat-icon-button><mat-icon>notifications</mat-icon></button>
+    <button *ngIf="!smScreen" mat-icon-button>
+      <mat-icon>search</mat-icon>
+    </button>
+    <button *ngIf="!smScreen" mat-icon-button>
+      <mat-icon>notifications</mat-icon>
+    </button>
     <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
       {{ getUserInitials() }}
     </button>
@@ -27,10 +39,14 @@
   </div>
 </div>
 
-<mat-menu #menu="matMenu" fxFlex="column">
+<mat-menu #menu="matMenu">
   <button mat-menu-item>Account</button>
   <mat-divider></mat-divider>
   <button mat-menu-item (click)="signOut()">Sign Out</button>
+</mat-menu>
+<mat-menu #leftMenu="matMenu" fxLayout="column">
+  <a routerLink="/about" mat-menu-item>About</a>
+  <button mat-menu-item>Search</button>
 </mat-menu>
 
 <!-- <img

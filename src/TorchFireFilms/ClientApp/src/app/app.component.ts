@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { User } from 'oidc-client';
 import { Observable } from 'rxjs';
@@ -11,9 +12,16 @@ import { AuthService } from './core/auth.service';
 export class AppComponent {
   title = 'angular-sample-app';
   user$: Observable<User>;
+  smScreen = false;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private breakpointObserver: BreakpointObserver
+  ) {
     this.user$ = this.authService.userChanged$;
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait])
+      .subscribe((result) => (this.smScreen = result.matches));
   }
 
   signIn() {
