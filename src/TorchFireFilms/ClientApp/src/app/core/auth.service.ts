@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as Oidc from 'oidc-client';
 import { User, UserManager, WebStorageStateStore } from 'oidc-client';
 import { from, Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -29,6 +30,13 @@ export class AuthService {
     this.userManager.getUser().then((user) => {
       this.user = user;
     });
+
+    this.userManager.events.addUserSignedOut(() => {
+      console.log('User signed out');
+      this.signOut();
+    });
+
+    Oidc.Log.logger = console;
   }
 
   signIn(): Observable<any> {
