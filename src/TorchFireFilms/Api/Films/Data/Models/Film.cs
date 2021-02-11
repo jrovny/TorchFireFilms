@@ -29,6 +29,8 @@ namespace TorchFireFilms.Api.Films.Data.Models
         public DateTime ModifiedDate { get; set; }
         [Column("modified_user_id")]
         public int ModifiedUserId { get; set; }
+        [Column("deleted")]
+        public bool Deleted { get; set; }
         public FilmI18n FilmTranslation { get; set; }
     }
 }

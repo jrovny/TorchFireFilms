@@ -20,6 +20,7 @@ namespace TorchFireFilms.Api.Films
                 .Include(f => f.FilmTranslation)
                 .AsNoTracking()
                 .Where(f => f.FilmTranslation.IsoLanguage639Id == languageId)
+                .Where(f => f.Deleted == false)
                 .ToListAsync();
         }
 
