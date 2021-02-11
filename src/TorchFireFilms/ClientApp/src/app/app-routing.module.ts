@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AboutComponent } from './about/about.component';
 import { AppComponent } from './app.component';
 import { CallbackComponent } from './auth/callback/callback.component';
 import { SignoutRedirectCallbackComponent } from './auth/signout-redirect-callback/signout-redirect-callback.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
     component: SignoutRedirectCallbackComponent,
   },
   { path: 'browse', component: BrowseComponent },
+  { path: 'about', component: AboutComponent },
   { path: '', component: BrowseComponent },
   { path: '**', component: PageNotFoundComponent },
 ];

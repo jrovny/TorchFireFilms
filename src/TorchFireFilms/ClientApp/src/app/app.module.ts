@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/auth-interceptor';
 import { BrowseComponent } from './films/components/browse/browse.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { BrowseComponent } from './films/components/browse/browse.component';
     PageNotFoundComponent,
     SignoutRedirectCallbackComponent,
     BrowseComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
