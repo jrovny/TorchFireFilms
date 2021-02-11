@@ -14,19 +14,13 @@
     </button>
     <a mat-button routerLink="/">TorchFireFilms</a>
     <a *ngIf="!smScreen" mat-button routerLink="/about">About</a>
+    <a *ngIf="!smScreen" mat-button routerLink="/">Search</a>
   </div>
-  <div *ngIf="!authenticated()">
+  <div *ngIf="!authenticated() && !smScreen">
     <button mat-button (click)="signIn()">Sign In</button>
     <button mat-raised-button color="primary">Sign Up</button>
-    <div>{{ this.authService.user?.profile.last_name }}</div>
   </div>
-  <div *ngIf="authenticated()" fxLayoutGap="3px">
-    <button *ngIf="!smScreen" mat-icon-button>
-      <mat-icon>search</mat-icon>
-    </button>
-    <button *ngIf="!smScreen" mat-icon-button>
-      <mat-icon>notifications</mat-icon>
-    </button>
+  <div *ngIf="authenticated() && !smScreen" fxLayoutGap="3px">
     <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
       {{ getUserInitials() }}
     </button>
@@ -40,4 +34,13 @@
 <mat-menu #leftMenu="matMenu" fxLayout="column">
   <a routerLink="/about" mat-menu-item>About</a>
   <button mat-menu-item>Search</button>
+  <mat-divider></mat-divider>
+  <div *ngIf="!authenticated()">
+    <button mat-menu-item (click)="signIn()">Sign In</button>
+    <button mat-menu-item>Sign Up</button>
+  </div>
+  <div *ngIf="authenticated()">
+    <button mat-menu-item>Account</button>
+    <button mat-menu-item (click)="signOut()">Sign Out</button>
+  </div>
 </mat-menu>
